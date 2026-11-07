@@ -1,73 +1,109 @@
-# Welcome to your Lovable project
+# Chatify Frontend
 
-## Project info
+A real-time chat app that runs in the browser, as a native **Windows** desktop app and as an **Android** app, built with Tauri.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+The server lives in a separate repository: **Chatify-Backend**.
 
-## How can I edit this code?
+## Features
 
-There are several ways of editing your application.
+- **Real-time messaging** over WebSockets (Socket.IO).
+- **Sign in** with email, with account emails sent by the backend.
+- **Media sharing**, with an emoji picker in the message box.
+- **Live website**: use Chatify directly in the browser at https://chatifyapp-s11a.onrender.com/, no setup needed.
+- **Download page**: the website has a section where you can download the Windows and Android apps.
+- **Desktop app** (Tauri, Windows): launch at startup, deep links and automatic updates.
+- **Android app**: the same app on your phone.
+- **Light and dark themes** and a responsive layout.
 
-**Use Lovable**
+## Tech stack
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+| Area | Tools |
+| --- | --- |
+| UI | React 18, TypeScript, Vite, Tailwind CSS, Radix UI, lucide-react, sonner |
+| Routing and data | React Router, TanStack Query, React Hook Form, Zod |
+| Realtime and backend services | socket.io-client, Supabase JS client |
+| Desktop and Android | Tauri 2 (autostart, deep-link, updater, store, fs plugins) |
+| Android tooling | Android Studio (Android SDK, NDK, emulator) |
+| Package manager | npm |
 
-Changes made via Lovable will be committed automatically to this repo.
+## Getting started
 
-**Use your preferred IDE**
+### Use the live website
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+You can use Chatify directly without running anything locally:
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+**https://chatifyapp-s11a.onrender.com/**
 
-Follow these steps:
+From there you can chat in the browser, or download the **Windows** or **Android** app from the download section.
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### Prerequisites
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+- Node.js (LTS)
+- npm (comes with Node.js)
+- The Chatify backend running (see the **Chatify-Backend** repository)
+- For the desktop and Android apps only: the [Rust toolchain and Tauri prerequisites](https://tauri.app/start/prerequisites/) for your OS
+- For the Android app only: Android Studio with the Android SDK and NDK, and the `JAVA_HOME` and `ANDROID_HOME` environment variables set
 
-# Step 3: Install the necessary dependencies.
-npm i
+### Clone
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+```bash
+git clone https://github.com/aditya79373/Chatify-Frontend.git
+cd Chatify-Frontend
+```
+
+### Install and run
+
+```bash
+npm install
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Open the URL Vite prints (usually http://localhost:5173).
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Download the apps
 
-**Use GitHub Codespaces**
+Once the website opens, use its download section to get the **Windows** or **Android** app, then install and use it from there. You don't need to build the apps yourself unless you want to develop them (see below).
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Desktop app (Tauri)
 
-## What technologies are used for this project?
+```bash
+npm run tauri:dev     # run the desktop app in development
+npm run tauri:build   # build an installer for your OS
+```
 
-This project is built with:
+### Android app (Tauri)
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+```bash
+npm run tauri android init    # first time only: creates the Android project
+npm run tauri android dev     # run on a connected phone or an emulator
+npm run tauri android build   # build the APK / AAB
+```
 
-## How can I deploy this project?
+Connect your phone with USB debugging turned on, or start an emulator from Android Studio, before running `android dev`.
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+You can also open the generated Android project in **Android Studio** (`src-tauri/gen/android`) to run it, debug it, or build a signed APK / AAB.
 
-## Can I connect a custom domain to my Lovable project?
+The web layout is responsive, so the same screens work on phone-sized displays.
 
-Yes, you can!
+### Build for the web
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+```bash
+npm run build
+npm run preview       # optional: preview the production build
+```
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## Scripts
+
+| Script | What it does |
+| --- | --- |
+| `dev` | Start the Vite dev server |
+| `build` | Production build |
+| `preview` | Preview the production build |
+| `tauri:dev` | Run the desktop app in development |
+| `tauri:build` | Build the desktop app installer |
+| `tauri android dev` | Run the Android app (use `npm run tauri android dev`) |
+
+## Notes
+
+- Do not commit `.env` files.
+- The web, desktop and Android apps share the same code. Only the Tauri commands above are specific to the desktop and Android builds.
